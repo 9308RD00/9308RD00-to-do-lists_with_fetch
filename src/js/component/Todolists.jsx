@@ -10,10 +10,13 @@ const Todolists = (props) => {
         <input
           className="imput"
           placeholder="Add New Todo"
+          value={props.input}
           onChange={(e) => props.setInput(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key == "Enter")
+            if (e.key == "Enter") {
               props.setMylist([...props.myList, props.input]);
+              props.setInput("");
+            }
           }}
         />
         <button
@@ -21,6 +24,7 @@ const Todolists = (props) => {
           className="btn btn-primary"
           onClick={() => {
             props.setMylist([...props.myList, props.input]);
+            props.setInput("");
           }}
         >
           Add
