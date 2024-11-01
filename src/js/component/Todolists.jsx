@@ -3,6 +3,25 @@ import Home from "./home";
 
 //create your first component
 const Todolists = (props) => {
+  const postTodo = (taskName) => {
+    fetch("https://playground.4geeks.com/todo/todos/redando_d", {
+      method: "POST",
+      body: JSON.stringify({ label: taskName, is_done: false }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw Error(res.statusText);
+        return res.json();
+      })
+      .then((response) => {
+        console.log("Success:", response);
+        props.getFetch();
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <div className="row  text-center">
       <div className="col todoBox">
@@ -14,7 +33,7 @@ const Todolists = (props) => {
           onChange={(e) => props.setInput(e.target.value)}
           onKeyDown={(e) => {
             if (e.key == "Enter") {
-              props.setMylist([...props.myList, props.input]);
+              postTodo(props.input);
               props.setInput("");
             }
           }}
@@ -23,7 +42,7 @@ const Todolists = (props) => {
           type="button"
           className="btn btn-primary"
           onClick={() => {
-            props.setMylist([...props.myList, props.input]);
+            postTodo(props.input);
             props.setInput("");
           }}
         >
